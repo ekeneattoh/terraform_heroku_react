@@ -20,3 +20,7 @@ variable "heroku_region" {
 variable "backend_url" {
     type = string
 }
+
+variable "source_code_path" {
+    type = string
+}
