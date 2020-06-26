@@ -3,8 +3,27 @@ provider "heroku" {
   api_key = var.heroku_api_key
 }
 
+resource "heroku_app" "herokuapp" {
+  name   = var.heroku_app_name
+  region = var.heroku_region
+
+  config_vars = {
+    REACT_APP_PRD_BACKEND_URL = var.backend_url
+  }
+
+  buildpacks = [
+    "heroku/nodejs"
+  ]
+}
+
+// module "postgres_add_on" {
+//   source          = "./modules/postgres_add_on/"
+//   var_name = var.var_name
+// }
+
 resource "heroku_build" "herokuapp" {
-  app = heroku_app.herokuapp.id
+  app        = heroku_app.herokuapp.id
+  depends_on = [heroku_app.herokuapp]
 
   source = {
     # A local directory, changing its contents will
@@ -20,9 +39,4 @@ resource "heroku_formation" "herokuapp" {
   quantity   = 1
   size       = "Standard-1x"
   depends_on = [heroku_build.herokuapp]
-}
-
-module "react_app" {
-  source = "./modules/react_app/"
-
 }
