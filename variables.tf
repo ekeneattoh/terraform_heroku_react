@@ -14,7 +14,7 @@ variable "heroku_app_name" {
 
 variable "heroku_region" {
   type    = string
-  default = "europe"
+  default = "eu"
 }
 
 variable "backend_url" {
